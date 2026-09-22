@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>From Beowulf to Shakespeare — Review Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --burg: #5C1A2B;
+    --burg-dk: #3E0F1E;
+    --gold: #B9944C;
+    --gold-lt: #E7D9B8;
+    --ink: #2B2420;
+    --mute: #756A5E;
+    --paper: #FAF7F1;
+    --line: #E4DCCB;
+    --white: #FFFFFF;
+    --good: #3F6B4A;
+    --bad: #A03A3A;
+    color-scheme: light;
+  }
+  :root:not([data-theme="light"]) {
+    /* keep a light, paper-like reading surface regardless of system theme */
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  header.top {
+    background: var(--burg-dk);
+    color: var(--white);
+    padding: 28px 20px calc(28px + env(safe-area-inset-top, 0px));
+    padding-top: calc(28px + env(safe-area-inset-top, 0px));
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  header.top::before {
+    content: "";
+    position: absolute;
+    top: -60px; right: -40px;
+    width: 200px; height: 200px;
+    background: var(--burg);
+    border-radius: 50%;
+  }
+  header.top .inner {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold-lt);
+    text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    font-size: 30px;
+    margin: 0 0 6px;
+    line-height: 1.15;
+  }
+  .subtitle {
+    color: var(--gold-lt);
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px;
+    margin-top: 24px;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--burg);
+    margin-bottom: 6px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--paper);
+    margin-bottom: 18px;
+  }
+  input[type="text"]:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+    background: var(--white);
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--mute);
+    margin: -8px 0 18px;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 22px;
+    cursor: pointer;
+    transition: opacity .15s ease, transform .1s ease;
+  }
+  button:active { transform: scale(0.98); }
+  .btn-primary {
+    background: var(--burg);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--burg-dk); }
+  .btn-primary:disabled {
+    background: #C9BEB0;
+    cursor: not-allowed;
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--white);
+  }
+  .btn-gold:hover { opacity: .9; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--burg);
+    border: 1px solid var(--line);
+  }
+
+  .q-block {
+    margin-bottom: 26px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .q-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-num {
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: .5px;
+  }
+  .q-text {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--burg);
+    margin: 4px 0 12px;
+    line-height: 1.4;
+  }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .opt:hover { background: var(--paper); }
+  .opt input { margin-top: 3px; accent-color: var(--burg); flex-shrink: 0; }
+  .opt span.letter {
+    font-weight: 700;
+    color: var(--burg);
+    min-width: 18px;
+  }
+  .opt.answered {
+    background: var(--paper);
+    border-color: var(--line);
+  }
+
+  /* results styling */
+  .score-banner {
+    text-align: center;
+    padding: 28px 20px;
+    border-radius: 10px;
+    background: var(--burg-dk);
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .score-banner .big {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1;
+    margin: 6px 0;
+  }
+  .score-banner .who {
+    font-size: 14px;
+    color: var(--gold-lt);
+    opacity: .9;
+  }
+  .score-stats {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 14px;
+    font-size: 13px;
+  }
+  .score-stats b { font-size: 17px; display: block; }
+
+  .review-item {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .review-item.correct { border-left: 4px solid var(--good); }
+  .review-item.incorrect { border-left: 4px solid var(--bad); }
+  .review-item .tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .review-item.correct .tag { background: #E4EFE6; color: var(--good); }
+  .review-item.incorrect .tag { background: #F6E3E3; color: var(--bad); }
+  .review-item .rq {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 8px;
+    font-size: 15px;
+  }
+  .review-item .row { font-size: 13.5px; margin: 3px 0; }
+  .review-item .row.you { color: var(--bad); }
+  .review-item .row.ans { color: var(--good); }
+
+  .actions-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .hidden { display: none !important; }
+
+  .progress-note {
+    font-size: 13px;
+    color: var(--mute);
+    margin-bottom: 14px;
+  }
+
+  footer.foot {
+    text-align: center;
+    color: var(--mute);
+    font-size: 12px;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <p class="kicker">Introduction to English Literature</p>
+    <h1>From Beowulf to Shakespeare</h1>
+    <p class="subtitle">25-question review quiz — literary periods, Medieval literature, the Renaissance &amp; Shakespeare</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- GATE SCREEN -->
+  <section id="gate" class="card">
+    <label for="nameInput">Full name</label>
+    <input type="text" id="nameInput" placeholder="e.g. Vincentia Aprilla Putri" autocomplete="off" />
+
+    <label for="idInput">Student ID</label>
+    <input type="text" id="idInput" placeholder="e.g. 2024110023" autocomplete="off" />
+    <p class="hint">Both fields are required before you can start the quiz.</p>
+
+    <button class="btn-primary" id="startBtn" disabled>Start Quiz</button>
+  </section>
+
+  <!-- QUIZ SCREEN -->
+  <section id="quiz" class="card hidden">
+    <p class="progress-note" id="progressNote">0 of 25 answered</p>
+    <div id="questionsHost"></div>
+    <p id="unansweredWarn" class="hidden" style="color:var(--bad); font-size:13.5px; font-weight:600; margin-bottom:12px;"></p>
+    <div class="actions-row">
+      <button class="btn-primary" id="submitBtn">Submit Quiz</button>
+    </div>
+  </section>
+
+  <!-- RESULTS SCREEN -->
+  <section id="results" class="card hidden">
+    <div class="score-banner">
+      <div class="who" id="resultWho"></div>
+      <div class="big" id="resultScore"></div>
+      <div class="score-stats">
+        <div><b id="statCorrect" style="color:#8FD19E"></b>Correct</div>
+        <div><b id="statWrong" style="color:#E7A7A7"></b>Wrong</div>
+        <div><b id="statPercent" style="color:var(--gold-lt)"></b>Score</div>
+      </div>
+    </div>
+
+    <div id="reviewHost"></div>
+
+    <div class="actions-row">
+      <button class="btn-gold" id="downloadBtn">Download Results to Study</button>
+    </div>
+  </section>
+
+  <footer class="foot">Introduction to English Literature &middot; Review Quiz</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+{ q: "Roughly what years does the Medieval period cover?", opts: ["600–1500 CE", "1500–1700 CE", "0–500 CE", "1700–1900 CE"], answer: 0 },
+{ q: "Which of these is a literary movement (a deliberate shared goal among writers) rather than just a time period?", opts: ["The Victorian Age", "Romanticism", "The Medieval Period", "The Renaissance"], answer: 1 },
+{ q: "What do we call a poetic device that combines two words to describe something else, like ‘whale-road’ for the sea?", opts: ["Metaphor", "Allegory", "Kenning", "Alliteration"], answer: 2 },
+{ q: "An extended metaphor where every element in a story stands for something else is called a…", opts: ["Kenning", "Allegory", "Caesura", "Motif"], answer: 1 },
+{ q: "In Old English poetry, what is a ‘caesura’?", opts: ["A rhyme at the end of a line", "A pause in the middle of a line", "A two-word poetic phrase", "The poem’s title"], answer: 1 },
+{ q: "Who wrote The Canterbury Tales?", opts: ["William Shakespeare", "Geoffrey Chaucer", "Thomas More", "John Milton"], answer: 1 },
+{ q: "What language is Beowulf written in?", opts: ["Middle English", "Latin", "Old English", "Modern English"], answer: 2 },
+{ q: "Which of the following is NOT one of Beowulf’s three battles?", opts: ["Grendel", "Grendel’s mother", "A giant serpent", "The dragon"], answer: 2 },
+{ q: "A ‘frame narrative’ is best described as…", opts: ["A poem with no rhyme scheme", "A larger story that sets the stage for a series of smaller stories", "A play performed only once", "A biography of the author"], answer: 1 },
+{ q: "In The Canterbury Tales, who tells the beast fable about a rooster and a fox?", opts: ["The Knight", "The Wife of Bath", "The Nun’s Priest", "The Pardoner"], answer: 2 },
+{ q: "Which pilgrim in The Canterbury Tales is a five-time widow known for her wit and travels?", opts: ["The Prioress", "The Wife of Bath", "The Miller", "The Squire"], answer: 1 },
+{ q: "What does the word ‘Renaissance’ literally mean?", opts: ["Reason", "Rebirth", "Reflection", "Revolution"], answer: 1 },
+{ q: "Humanism, the driving idea of the Renaissance, emphasized…", opts: ["Total devotion to religious authority", "Reason, education, and individual human potential", "Rejecting all classical learning", "Strict social hierarchy"], answer: 1 },
+{ q: "Who wrote the play Doctor Faustus, about a scholar who sells his soul for knowledge and power?", opts: ["William Shakespeare", "Christopher Marlowe", "Francis Bacon", "Edmund Spenser"], answer: 1 },
+{ q: "Which Renaissance writer wrote Utopia, describing an imagined ‘perfect’ society?", opts: ["Thomas More", "Sir Philip Sidney", "Francis Bacon", "John Milton"], answer: 0 },
+{ q: "What is the rhyme scheme of a Shakespearean sonnet?", opts: ["AABB CCDD EEFF GG", "ABAB CDCD EFEF GG", "ABBA ABBA CDC DCD", "AAAA BBBB CCCC DD"], answer: 1 },
+{ q: "About how many sonnets did Shakespeare write?", opts: ["14", "39", "100", "154"], answer: 3 },
+{ q: "Which of these is a Shakespearean comedy rather than a tragedy?", opts: ["Hamlet", "Macbeth", "Twelfth Night", "Othello"], answer: 2 },
+{ q: "In literary terms, ‘hamartia’ refers to…", opts: ["A happy ending", "A tragic hero’s fatal flaw", "A play about real kings", "A type of sonnet"], answer: 1 },
+{ q: "What is most often identified as Macbeth’s tragic flaw?", opts: ["Jealousy", "Indecision", "Ambition", "Pride"], answer: 2 },
+{ q: "In which English town was William Shakespeare born?", opts: ["London", "Stratford-upon-Avon", "Canterbury", "Oxford"], answer: 1 },
+{ q: "Shakespeare became a part-owner of which London theatre?", opts: ["The Rose", "The Globe", "The Swan", "The Curtain"], answer: 1 },
+{ q: "Which of these is a Shakespeare history play?", opts: ["Doctor Faustus", "Henry V", "Twelfth Night", "A Midsummer Night’s Dream"], answer: 1 },
+{ q: "Sonnet 18 famously begins, ‘Shall I compare thee to a…’", opts: ["rose in bloom?", "summer’s day?", "winter’s night?", "starry sky?"], answer: 1 },
+{ q: "In Romeo and Juliet, Romeo’s tragic flaw is most often identified as…", opts: ["Ambition", "Jealousy", "Impulsiveness", "Pride"], answer: 2 },
+];
+const LETTERS = ["A", "B", "C", "D"];
+
+const state = { name: "", id: "", answers: new Array(QUESTIONS.length).fill(null) };
+
+const nameInput = document.getElementById('nameInput');
+const idInput = document.getElementById('idInput');
+const startBtn = document.getElementById('startBtn');
+
+function checkGate() {
+  const ok = nameInput.value.trim().length > 0 && idInput.value.trim().length > 0;
+  startBtn.disabled = !ok;
+}
+nameInput.addEventListener('input', checkGate);
+idInput.addEventListener('input', checkGate);
+
+startBtn.addEventListener('click', () => {
+  state.name = nameInput.value.trim();
+  state.id = idInput.value.trim();
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function renderQuestions() {
+  const host = document.getElementById('questionsHost');
+  host.innerHTML = '';
+  QUESTIONS.forEach((item, qi) => {
+    const block = document.createElement('div');
+    block.className = 'q-block';
+    const num = document.createElement('div');
+    num.className = 'q-num';
+    num.textContent = 'QUESTION ' + (qi + 1) + ' OF ' + QUESTIONS.length;
+    const qtext = document.createElement('div');
+    qtext.className = 'q-text';
+    qtext.textContent = item.q;
+    block.appendChild(num);
+    block.appendChild(qtext);
+
+    item.opts.forEach((opt, oi) => {
+      const label = document.createElement('label');
+      label.className = 'opt';
+      label.id = 'opt-' + qi + '-' + oi;
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'q' + qi;
+      input.value = oi;
+      input.addEventListener('change', () => {
+        state.answers[qi] = oi;
+        document.querySelectorAll('[id^="opt-' + qi + '-"]').forEach(el => el.classList.remove('answered'));
+        label.classList.add('answered');
+        state.confirmedIncomplete = false;
+        document.getElementById('unansweredWarn').classList.add('hidden');
+        updateProgress();
+      });
+      const letter = document.createElement('span');
+      letter.className = 'letter';
+      letter.textContent = LETTERS[oi] + '.';
+      const txt = document.createElement('span');
+      txt.textContent = opt;
+      label.appendChild(input);
+      label.appendChild(letter);
+      label.appendChild(txt);
+      block.appendChild(label);
+    });
+
+    host.appendChild(block);
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const answered = state.answers.filter(a => a !== null).length;
+  document.getElementById('progressNote').textContent = answered + ' of ' + QUESTIONS.length + ' answered';
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const unanswered = state.answers.filter(a => a === null).length;
+  const warn = document.getElementById('unansweredWarn');
+  if (unanswered > 0 && !state.confirmedIncomplete) {
+    warn.textContent = unanswered + ' question(s) are unanswered and will be marked wrong. Click Submit again to continue anyway.';
+    warn.classList.remove('hidden');
+    state.confirmedIncomplete = true;
+    window.scrollTo({ top: document.getElementById('quiz').scrollHeight, behavior: 'smooth' });
+    return;
+  }
+  state.confirmedIncomplete = false;
+  showResults();
+});
+
+function showResults() {
+  let correct = 0;
+  const reviewHost = document.getElementById('reviewHost');
+  reviewHost.innerHTML = '';
+
+  QUESTIONS.forEach((item, qi) => {
+    const userAns = state.answers[qi];
+    const isCorrect = userAns === item.answer;
+    if (isCorrect) correct++;
+
+    const div = document.createElement('div');
+    div.className = 'review-item ' + (isCorrect ? 'correct' : 'incorrect');
+
+    const tag = document.createElement('div');
+    tag.className = 'tag';
+    tag.textContent = isCorrect ? 'Correct' : 'Incorrect';
+    div.appendChild(tag);
+
+    const rq = document.createElement('div');
+    rq.className = 'rq';
+    rq.textContent = (qi + 1) + '. ' + item.q;
+    div.appendChild(rq);
+
+    if (!isCorrect) {
+      const you = document.createElement('div');
+      you.className = 'row you';
+      you.textContent = 'Your answer: ' + (userAns === null ? '(not answered)' : LETTERS[userAns] + '. ' + item.opts[userAns]);
+      div.appendChild(you);
+    }
+    const ans = document.createElement('div');
+    ans.className = 'row ans';
+    ans.textContent = 'Correct answer: ' + LETTERS[item.answer] + '. ' + item.opts[item.answer];
+    div.appendChild(ans);
+
+    reviewHost.appendChild(div);
+  });
+
+  const total = QUESTIONS.length;
+  const wrong = total - correct;
+  const pct = Math.round((correct / total) * 100);
+
+  document.getElementById('resultWho').textContent = state.name + '  ·  ID ' + state.id;
+  document.getElementById('resultScore').textContent = correct + ' / ' + total;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statPercent').textContent = pct + '%';
+
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('results').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  state.correct = correct;
+  state.wrong = wrong;
+  state.pct = pct;
+}
+
+document.getElementById('downloadBtn').addEventListener('click', async () => {
+  const lines = [];
+  lines.push('FROM BEOWULF TO SHAKESPEARE — REVIEW QUIZ RESULTS');
+  lines.push('='.repeat(52));
+  lines.push('Name: ' + state.name);
+  lines.push('Student ID: ' + state.id);
+  lines.push('Score: ' + state.correct + ' / ' + QUESTIONS.length + '  (' + state.pct + '%)');
+  lines.push('');
+  lines.push('-'.repeat(52));
+  lines.push('ANSWER REVIEW (study this before the next quiz)');
+  lines.push('-'.repeat(52));
+  lines.push('');
+
+  QUESTIONS.forEach((item, qi) => {
+    const userAns = state.answers[qi];
+    const isCorrect = userAns === item.answer;
+    lines.push((qi + 1) + '. ' + item.q);
+    item.opts.forEach((opt, oi) => {
+      let marker = '   ';
+      if (oi === item.answer) marker = ' ✓ ';
+      else if (oi === userAns && !isCorrect) marker = ' ✗ ';
+      lines.push(marker + LETTERS[oi] + '. ' + opt);
+    });
+    lines.push('   Result: ' + (isCorrect ? 'CORRECT' : 'INCORRECT — correct answer is ' + LETTERS[item.answer]));
+    lines.push('');
+  });
+
+  const fileText = lines.join('\n');
+  const safeName = (state.name || 'student').replace(/[^a-z0-9]+/gi, '_');
+  const filename = 'quiz_results_' + safeName + '.txt';
+
+  try {
+    const downloads = await claude.use('downloads');
+    if (downloads) {
+      await downloads.save({ filename, data: fileText });
+      return;
+    }
+  } catch (e) {
+    // fall through to browser fallback
+  }
+
+  // Fallback for environments without the downloads capability (e.g. plain browser)
+  const blob = new Blob([fileText], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>
